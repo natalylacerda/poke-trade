@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PokeCard from './components/PokeCard';
 import PageButton from './components/PageButton'
+import SnackBar from './components/SnackBar'
+import Alert from './components/Alert'
 import { Container, Header, Title, TeamTitle, Teams, BlueTeam, RedTeam, Pokedex, CheckButton, Buttons } from './AppStyles';
 import axios from 'axios';
 
@@ -10,6 +12,8 @@ function App() {
   
   const [nextPage, setNextPage] = useState();
   const [prevPage, setPrevPage] = useState();
+  const [fairTrade, setFairTrade] = useState();
+  const [unfairTrade, setUnFairTrade] = useState();
 
   useEffect(() => {
     axios.get(apiUrl).then((res) => {
@@ -60,11 +64,11 @@ function App() {
       alert('Os lados não podem estar vazios')
     }
     else{
-      if (Math.abs(totalScore) > 30){
-        alert('X Troca Injusta');
+      if (Math.abs(totalScore) > 50){
+        setUnFairTrade('Essa troca não é justa')
       }
       else{
-        alert('Troca bacana :)')
+        setFairTrade('Troca bacana, hehe :)')
       }
     }
   }
@@ -160,6 +164,16 @@ function App() {
           label={'Próximo'}
         />
       </Buttons>
+      {fairTrade && (
+        <SnackBar setActions={setFairTrade} autoHideDuration={2500}>
+          <Alert>{fairTrade}</Alert>
+        </SnackBar>
+      )}
+      {unfairTrade && (
+        <SnackBar setActions={setUnFairTrade} autoHideDuration={2500}>
+          <Alert error>{unfairTrade}</Alert>
+        </SnackBar>
+      )}
     </Container>
   );
 }

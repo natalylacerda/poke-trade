@@ -21,6 +21,7 @@ export const Header = styled.div `
 export const Title = styled.p `
   display: flex;
   justify-content: center;
+  text-align: center;
   font-size: 1.85rem;
   color: #262626;
   width: 100%;
