@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Buttons } from './styles';
+import { Card, Buttons, Cancel } from './styles';
 import CardButton from '../CardButton'
 import axios from "axios";
+import { FaTimes } from "react-icons/fa";
 
-export default function PokeCard({ name, url, onClickLeft, onClickRight, type }) {
+export default function PokeCard({ name, url, onClickCancel,  onClickLeft, onClickRight, type }) {
 
     const [pokemon, setPokemon] = useState();
 
@@ -30,6 +31,9 @@ export default function PokeCard({ name, url, onClickLeft, onClickRight, type })
     else if (type === 'chosen'){
         return(
             <Card>
+                <Cancel onClick={onClickCancel} style={{color: 'grey', fontSize: '1.5rem', cursor: 'pointer'}}>
+                    <FaTimes/>
+                </Cancel>
                 <img src = {pokemon?.sprites.front_default } alt="pokemon"/>
                 {name}
             </Card>
