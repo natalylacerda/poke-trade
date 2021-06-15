@@ -10,6 +10,7 @@ const getStyle = (type) => {
     return `
         display: flex;
         justify-content: center;
+        padding-top: 15px;
       `;
   }
 };
@@ -24,7 +25,6 @@ export const Card = styled.div`
   align-items: center;
   font-size: calc(8px + 2vmin);
   box-sizing: border-box;
-  padding-top: 15px;
   background-color: #fff;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   ${(props) => getStyle(props.type)}
@@ -34,12 +34,21 @@ export const Buttons = styled.div`
   box-sizing: border-box;
   justify-content: center;
   width: 100%;
-  height: 25%;
+  height: 20%;
+`;
+export const Xp = styled.div`
+  width: 100%;
+  display: flex;
+  box-sizing: border-box;
+  justify-content: flex-start;
+  padding: 5px 10px 0;
+  font-size: 0.95rem;
+  color: grey;
 `;
 export const Cancel = styled.div`
   width: 100%;
   display: flex;
   box-sizing: border-box;
   justify-content: flex-end;
-  padding: 0 10px;
+  padding: 12px 10px 0;
 `;

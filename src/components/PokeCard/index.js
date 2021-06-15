@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Buttons, Cancel } from './styles';
+import { Card, Buttons, Xp, Cancel } from './styles';
 import CardButton from '../CardButton'
 import axios from "axios";
 import { FaTimes } from "react-icons/fa";
@@ -14,7 +14,8 @@ export default function PokeCard({ name, url, onClickCancel,  onClickLeft, onCli
 
     if (type === 'default'){
         return(
-            <Card id={pokemon?.id} score={pokemon?.base_experience} type={type}>
+            <Card id={pokemon?.id} type={type}>
+                <Xp>XP: {pokemon?.base_experience}</Xp>
                 <img src = {pokemon?.sprites.front_default } alt="pokemon"/>
                 {name}
                 <Buttons>
