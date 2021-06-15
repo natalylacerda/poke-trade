@@ -10,8 +10,10 @@ export const ButtonContainer = styled.div `
   width: 90px;
   background-color: lightgrey;
   transition: 0.3s;
+  margin: 10px 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.15);
   :hover{
-      cursor: pointer;
-      background-color: grey;
+    cursor: pointer;
+    background-color: grey;
   }
 `;
