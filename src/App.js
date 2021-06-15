@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PokeCard from './components/PokeCard';
 import PageButton from './components/PageButton'
-import { Container, Header, Title, Teams, BlueTeam, RedTeam, Pokedex, CheckButton, Buttons } from './AppStyles';
+import { Container, Header, Title, TeamTitle, Teams, BlueTeam, RedTeam, Pokedex, CheckButton, Buttons } from './AppStyles';
 import axios from 'axios';
 
 function App() {
@@ -101,11 +101,11 @@ function App() {
   return (
     <Container>
       <Header>
-        <Title> ESCOLHA ATÉ 6 POKEMONS PARA CADA LADO </Title>
+        <Title> SELECIONE ATÉ 6 POKEMONS PARA CADA LADO </Title>
         <Teams>
 
           <BlueTeam>
-            <Title>Lado Azul</Title>
+            <TeamTitle>Lado Azul</TeamTitle>
             {blueTeam &&
             blueTeam.map((pokemon, idx) => (
               <PokeCard
@@ -119,7 +119,7 @@ function App() {
           </BlueTeam>
 
           <RedTeam>
-            <Title>Lado Vermelho</Title>
+            <TeamTitle>Lado Vermelho</TeamTitle>
             {redTeam &&
               redTeam.map((pokemon, idx) => (
                 <PokeCard
@@ -133,7 +133,7 @@ function App() {
           </RedTeam>
         </Teams>
         <CheckButton onClick={() => checkTrade()}>
-          Trocar
+          TROCAR
         </CheckButton>
       </Header>
       
