@@ -18,6 +18,12 @@ export const Header = styled.div `
   box-sizing: border-box;
   width: 100%;
 `
+export const AlignHistory = styled.div `
+  display: flex;
+  justify-content: flex-end;
+  box-sizing: border-box;
+  width: 100%;
+`
 export const Title = styled.p `
   display: flex;
   justify-content: center;
@@ -84,8 +90,19 @@ export const Pokedex = styled.div `
   flex-wrap: wrap;
   box-sizing: border-box;
 `
-export const Buttons = styled.div `
+export const PageButtons = styled.div `
   width: 100%;
   display: flex;
   justify-content: space-around;
+`
+export const TradeInfo = styled.div `
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-top: 7px;
+  border-bottom: 1px solid lightgrey;
+  .status{
+    font-weight: 400;
+  }
 `

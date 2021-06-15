@@ -3,17 +3,28 @@ import PokeCard from './components/PokeCard';
 import PageButton from './components/PageButton'
 import SnackBar from './components/SnackBar'
 import Alert from './components/Alert'
-import { Container, Header, Title, TeamTitle, Teams, BlueTeam, RedTeam, Pokedex, CheckButton, Buttons } from './AppStyles';
+import { Container, Header, AlignHistory, Title, TeamTitle, Teams, BlueTeam, RedTeam, Pokedex, CheckButton, PageButtons, TradeInfo } from './AppStyles';
 import axios from 'axios';
+import Modal from 'react-bootstrap/Modal';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const [results, setResults] = useState();
   const [apiUrl, setApiUrl] = useState("https://pokeapi.co/api/v2/pokemon");
-  
   const [nextPage, setNextPage] = useState();
   const [prevPage, setPrevPage] = useState();
   const [fairTrade, setFairTrade] = useState();
   const [unfairTrade, setUnFairTrade] = useState();
+  const [blueTeam, setBlueTeam] = useState([]);
+  const [redTeam, setRedTeam] = useState([]);
+  const [modalShow, setModalShow] = useState(false);
+  const [trade, setTrade] = useState({
+    scoreBlue: 0,
+    scoreRed: 0,
+    scoreTotal: 0,
+    tradeStatus: 'Status'
+  });
+  const [history, setHistory] = useState([]);
 
   useEffect(() => {
     axios.get(apiUrl).then((res) => {
@@ -22,9 +33,6 @@ function App() {
       setPrevPage(res.data.previous);
     });
   }, [results, apiUrl]);
-
-  const [blueTeam, setBlueTeam] = useState([]);
-  const [redTeam, setRedTeam] = useState([]);
 
   function handleBlue(url) {
     if (blueTeam.length === 6){
@@ -65,12 +73,27 @@ function App() {
     }
     else{
       if (Math.abs(totalScore) > 50){
-        setUnFairTrade('Essa troca não é justa')
+        setUnFairTrade('Essa troca não é justa');
+        setTrade({
+          ...trade,
+          scoreBlue: blueScore,
+          scoreRed: redScore,
+          scoreTotal: Math.abs(totalScore),
+          tradeStatus: 'Troca Injusta :('
+        });
       }
       else{
-        setFairTrade('Troca bacana, hehe :)')
+        setFairTrade('Troca bacana, hehe :)');
+        setTrade({
+          ...trade,
+          scoreBlue: blueScore,
+          scoreRed: redScore,
+          scoreTotal: Math.abs(totalScore),
+          tradeStatus: 'Troca Justa :)'
+        });
       }
     }
+    setHistory([...history, trade]);
   }
 
   function cancelBluePokemon(id) {
@@ -102,10 +125,43 @@ function App() {
     setRedTeam(array);
   }
 
+  function HistoryModal(props) {
+    return (
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        style={{color: '#444143'}}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Trocas Anteriores:
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        {history &&
+          history.map((trade, idx) => (
+            <TradeInfo key={idx}>
+              <p>{idx}</p>
+              <p>Lado Azul: {trade.scoreBlue}</p>
+              <p>Lado Vermelho: {trade.scoreRed}</p>
+              <p>Diferença de XP: {trade.scoreTotal}</p>
+              <p className="status" >{trade.tradeStatus}</p>
+            </TradeInfo>
+        ))}
+        </Modal.Body>
+      </Modal>
+    );
+  }
+
   return (
     <Container>
       <Header>
         <Title> SELECIONE ATÉ 6 POKEMONS PARA CADA LADO </Title>
+        <AlignHistory>
+          <PageButton className="history" label={'Histórico'} onClick={() => setModalShow(true)}/>
+        </AlignHistory>
         <Teams>
 
           <BlueTeam>
@@ -154,7 +210,7 @@ function App() {
             />
         ))}
       </Pokedex>
-      <Buttons>
+      <PageButtons>
         <PageButton
           onClick={() => setApiUrl(prevPage)}
           label={'Voltar'}
@@ -163,7 +219,13 @@ function App() {
           onClick={() => setApiUrl(nextPage)}
           label={'Próximo'}
         />
-      </Buttons>
+      </PageButtons>
+
+      <HistoryModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
+
       {fairTrade && (
         <SnackBar setActions={setFairTrade} autoHideDuration={2500}>
           <Alert>{fairTrade}</Alert>
