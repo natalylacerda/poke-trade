@@ -4,13 +4,13 @@ const getStyle = (type) => {
   if (type === "blue") {
     return `
       border-bottom-left-radius: 10px;
-      background: blue;
+      background: #2495ff;
     `;
   }
   if (type === "red") {
     return `
       border-bottom-right-radius: 10px;
-      background: red
+      background: #f25341;
     `;
   }
 };  
@@ -27,9 +27,6 @@ export const ButtonContainer = styled.div `
   :hover{
       cursor: pointer;
       opacity: 60%;
-  }
-  :visited{
-      background-color: pink;
   }
   ${(props) => getStyle(props.type)}
 `;
