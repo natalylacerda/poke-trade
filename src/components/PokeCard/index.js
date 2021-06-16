@@ -4,25 +4,30 @@ import CardButton from '../CardButton'
 import axios from "axios";
 import { FaTimes } from "react-icons/fa";
 
-export default function PokeCard({ name, url, onClickCancel,  onClickLeft, onClickRight, type }) {
+export default function PokeCard({ url, onClickCancel, onClickLeft, onClickRight, type, pokemon }) {
 
-    const [pokemon, setPokemon] = useState();
+    const [poke, setPoke] = useState();
 
     useEffect(() => {
-        axios.get(`${url}`).then((res) => setPokemon(res.data));
-    });
+        if (type === 'default'){
+            axios.get(`${url}`).then((res) => setPoke(res.data));
+        }
+    }, [url, type]);
+
+    function handleLeft() {onClickLeft(poke)}
+    function handleRight() {onClickRight(poke)}
 
     if (type === 'default'){
         return(
-            <Card id={pokemon?.id} type={type}>
-                <Xp>XP: {pokemon?.base_experience}</Xp>
-                <img src = {pokemon?.sprites.front_default } alt="pokemon"/>
-                {name}
+            <Card>
+                <Xp>XP: {poke?.base_experience}</Xp>
+                <img src = {poke?.sprites?.front_default} alt="pokemon"/>
+                {poke?.name}
                 <Buttons>
-                    <CardButton onClick={onClickLeft} type={'blue'}>
+                    <CardButton onClick={() => handleLeft()} type={'blue'}>
                         Escolher
                     </CardButton>
-                    <CardButton onClick={onClickRight} type={'red'}>
+                    <CardButton onClick={() => handleRight()} type={'red'}>
                         Escolher
                     </CardButton>
                 </Buttons>
@@ -35,8 +40,8 @@ export default function PokeCard({ name, url, onClickCancel,  onClickLeft, onCli
                 <Cancel onClick={onClickCancel} style={{color: 'grey', fontSize: '1.5rem', cursor: 'pointer'}}>
                     <FaTimes/>
                 </Cancel>
-                <img src = {pokemon?.sprites.front_default } alt="pokemon"/>
-                {name}
+                <img src = {pokemon?.sprites?.front_default } alt="pokemon"/>
+                {pokemon?.name}
             </Card>
         )
     }

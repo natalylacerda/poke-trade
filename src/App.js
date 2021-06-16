@@ -32,28 +32,22 @@ function App() {
       setNextPage(res.data.next);
       setPrevPage(res.data.previous);
     });
-  }, [results, apiUrl]);
+  }, [apiUrl]);
 
-  function handleBlue(url) {
+  function handleBlue(pokemon) {
     if (blueTeam.length === 6){
       alert('Só é possível adicionar até 6 pokemons')
     }
     else{
-      axios.get(`${url}`).then(
-        (res) => (
-          setBlueTeam([...blueTeam, res.data])
-      ));
+      setBlueTeam([...blueTeam, pokemon])
     }
   }
-  function handleRed(url) {
+  function handleRed(pokemon) {
     if (redTeam.length === 6){
       alert('Só é possível adicionar até 6 pokemons')
     }
     else{
-      axios.get(`${url}`).then(
-        (res) => (
-          setRedTeam([...redTeam, res.data])
-      ));
+      setRedTeam([...redTeam, pokemon])
     }
   }
 
@@ -66,29 +60,27 @@ function App() {
     for (let i = 0; i < redTeam.length; i++) {
       redScore = redScore + redTeam[i].base_experience
     };
-
-    let totalScore = blueScore - redScore;
+    
+    let totalScore = Math.abs(blueScore - redScore);
     if(blueScore === 0 || redScore === 0){
       alert('Os lados não podem estar vazios')
     }
     else{
-      if (Math.abs(totalScore) > 50){
+      if (totalScore > 50){
         setUnFairTrade('Essa troca não é justa');
         setTrade({
-          ...trade,
           scoreBlue: blueScore,
           scoreRed: redScore,
-          scoreTotal: Math.abs(totalScore),
+          scoreTotal: totalScore,
           tradeStatus: 'Troca Injusta :('
         });
       }
       else{
         setFairTrade('Troca bacana, hehe :)');
         setTrade({
-          ...trade,
           scoreBlue: blueScore,
           scoreRed: redScore,
-          scoreTotal: Math.abs(totalScore),
+          scoreTotal: totalScore,
           tradeStatus: 'Troca Justa :)'
         });
       }
@@ -167,13 +159,12 @@ function App() {
           <BlueTeam>
             <TeamTitle>Lado Azul</TeamTitle>
             {blueTeam &&
-            blueTeam.map((pokemon, idx) => (
+            blueTeam.map((poke, idx) => (
               <PokeCard
                 type={'chosen'}
-                name={pokemon.name}
-                url={`https://pokeapi.co/api/v2/pokemon/${pokemon.id}`}
+                pokemon={poke}
                 key={idx}
-                onClickCancel={() => cancelBluePokemon(pokemon.id)}
+                onClickCancel={() => cancelBluePokemon(poke.id)}
               />
             ))}
           </BlueTeam>
@@ -181,13 +172,12 @@ function App() {
           <RedTeam>
             <TeamTitle>Lado Vermelho</TeamTitle>
             {redTeam &&
-              redTeam.map((pokemon, idx) => (
+              redTeam.map((poke, idx) => (
                 <PokeCard
                   type={'chosen'}
-                  name={pokemon.name}
-                  url={`https://pokeapi.co/api/v2/pokemon/${pokemon.id}`}
+                  pokemon={poke}
                   key={idx}
-                  onClickCancel={() => cancelRedPokemon(pokemon.id)}
+                  onClickCancel={() => cancelRedPokemon(poke.id)}
                 />
             ))}
           </RedTeam>
@@ -199,14 +189,13 @@ function App() {
       
       <Pokedex>
         {results &&
-          results.map((result, idx) => (
+          results.map((pokemon, idx) => (
             <PokeCard
               type={'default'}
-              url={result.url}
-              name={result.name}
+              url={pokemon.url}
               key={idx}
-              onClickLeft={() => handleBlue(result.url)}
-              onClickRight={() => handleRed(result.url)}
+              onClickLeft={handleBlue}
+              onClickRight={handleRed}
             />
         ))}
       </Pokedex>
