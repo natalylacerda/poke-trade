@@ -9,7 +9,7 @@ const getStyle = (type) => {
   } else if (type === "chosen") {
     return `
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         padding-top: 15px;
       `;
   }
@@ -50,5 +50,5 @@ export const Cancel = styled.div`
   display: flex;
   box-sizing: border-box;
   justify-content: flex-end;
-  padding: 12px 10px 0;
+  padding: 0 10px;
 `;

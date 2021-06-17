@@ -19,7 +19,7 @@ export default function PokeCard({ url, onClickCancel, onClickLeft, onClickRight
 
     if (type === 'default'){
         return(
-            <Card>
+            <Card type={type}>
                 <Xp>XP: {poke?.base_experience}</Xp>
                 <img src = {poke?.sprites?.front_default} alt="pokemon"/>
                 {poke?.name}
@@ -36,7 +36,7 @@ export default function PokeCard({ url, onClickCancel, onClickLeft, onClickRight
     }
     else if (type === 'chosen'){
         return(
-            <Card>
+            <Card type={type}>
                 <Cancel onClick={onClickCancel} style={{color: 'grey', fontSize: '1.5rem', cursor: 'pointer'}}>
                     <FaTimes/>
                 </Cancel>
